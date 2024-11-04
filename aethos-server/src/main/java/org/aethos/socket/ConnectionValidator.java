@@ -1,4 +1,6 @@
-package org.aethos;
+package org.aethos.socket;
+
+import org.aethos.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

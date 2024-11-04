@@ -1,18 +1,11 @@
-package org.aethos;
+package org.aethos.socket;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
-import com.google.gson.Gson;
-import org.aethos.models.NotificationEvent;
+import org.aethos.controller.NotificationEventController;
+import org.aethos.socket.Client;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Classe que representa a Thread de operação dos clientes, a que vai lidar com o recebimento de dados do Cliente.
@@ -22,8 +15,7 @@ public class ConnectionWatcher extends Thread
     private Client client;
     private Socket connection;
     private ArrayList<Client> clients;
-    private final Gson gson = new Gson();
-    private final Firestore db;
+    private NotificationEventController notificationEventController;
 
     public ConnectionWatcher(Socket connection, ArrayList<Client> clients) throws Exception
     {
@@ -33,8 +25,7 @@ public class ConnectionWatcher extends Thread
 
         this.connection = connection;
         this.clients = clients;
-
-        db = FirestoreClient.getFirestore();
+        this.notificationEventController = new NotificationEventController();
     }
 
     public void run()
@@ -73,35 +64,20 @@ public class ConnectionWatcher extends Thread
             }
 
             for (;;) {
-                String postNotification = this.client.send();
+                String clientMessage = this.client.send();
+                System.out.println(clientMessage);
 
-                if (postNotification == null) {
+                if (clientMessage == null) {
                     return;
                 }
 
-                System.out.println(postNotification);
+                String response = notificationEventController.handleNotification(clientMessage);
 
-                NotificationEvent notificationEvent = gson.fromJson(postNotification, NotificationEvent.class);
+                System.out.println(response);
 
-                Map<String, Object> docData = new HashMap<>();
-                docData.put("uuidFromUser", notificationEvent.getUuidUserFrom());
-                docData.put("uuidToUser", notificationEvent.getUuidUserTo());
-                docData.put("like", notificationEvent.isLike());
-                docData.put("follow", notificationEvent.isFollow());
-                docData.put("comment", notificationEvent.isComment());
-                docData.put("read", notificationEvent.isRead());
-
-                ApiFuture<WriteResult> result = db.collection("notifications").document().set(docData);
-
-                try {
-                    WriteResult writeResult = result.get();  // Aguarda o resultado
-                    System.out.println("Data saved at: " + writeResult.getUpdateTime());
-                } catch (InterruptedException | ExecutionException e) {
-                    System.err.println("Error saving data to Firestore: " + e.getMessage());
-                    e.printStackTrace();
+                if (response != null) {
+                    client.receive(response);
                 }
-
-                client.receive(gson.toJson(notificationEvent));
             }
         } catch (Exception error) {
             try {

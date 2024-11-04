@@ -1,4 +1,4 @@
-package org.aethos;
+package org.aethos.models;
 
 public class OperationValidation extends Message {
     private final String operation;

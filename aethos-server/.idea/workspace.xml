@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c106959-2ec2-4043-99ea-98ac76785584" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../backend-client/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend-client/src/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/src/client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend-client/src/models/UserForm.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend-client/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/src/server.ts" afterDir="false" />
-    </list>
+    <list default="true" id="9c106959-2ec2-4043-99ea-98ac76785584" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

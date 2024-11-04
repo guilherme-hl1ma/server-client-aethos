@@ -1,6 +1,8 @@
 package org.aethos;
 
 import org.aethos.config.FirebaseConfig;
+import org.aethos.socket.Client;
+import org.aethos.socket.ConnectionValidator;
 
 import java.io.IOException;
 import java.util.ArrayList;

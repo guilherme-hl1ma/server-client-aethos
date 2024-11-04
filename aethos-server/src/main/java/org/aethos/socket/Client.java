@@ -1,4 +1,4 @@
-package org.aethos;
+package org.aethos.socket;
 
 
 import com.google.gson.Gson;

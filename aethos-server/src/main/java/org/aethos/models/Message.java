@@ -1,4 +1,4 @@
-package org.aethos;
+package org.aethos.models;
 
 import java.io.Serializable;
 

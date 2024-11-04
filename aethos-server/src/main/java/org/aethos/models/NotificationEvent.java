@@ -1,7 +1,5 @@
 package org.aethos.models;
 
-import org.aethos.Message;
-
 /**
  * Classe que representa um Evento de Notificação.
  */
