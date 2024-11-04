@@ -12,14 +12,3 @@ app.listen(8080, () => {
 
 client.onSocketClose();
 client.onSocketError();
-
-// Ouça eventos de encerramento do processo
-process.on("SIGINT", () => {
-  client.onCloseConnection();
-  process.exit(0); // Encerra o processo
-});
-
-process.on("SIGTERM", () => {
-  client.onCloseConnection();
-  process.exit(0); // Encerra o processo
-});

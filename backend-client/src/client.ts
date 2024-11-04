@@ -1,12 +1,9 @@
-import net, { createConnection, Socket } from "net";
+import net from "net";
 import { NotificationEvent } from "./models/NotificationEvent";
 
-/* export const validateSignUp = (operationValidation: OperationValidation) => {
-  const operationJson = JSON.stringify(operationValidation);
-  console.log(operationJson);
-  client.write(operationJson + "\n");
-}; */
-
+/**
+ * Classe que representa o Cliente da arquitetura Cliente-Servidor.
+ */
 export default class Client {
   static readonly DEFAULT_HOST: string = "localhost";
   static readonly DEFAULT_PORT: number = 3000;
@@ -40,19 +37,25 @@ export default class Client {
     });
   }
 
+  /**
+   * Método responsável por enviar para o Servidor Java um objeto de notificação.
+   * @param {NotificationEvent} notificationEvent um objeto que representa um evento de notificação.
+   */
   notify(notificationEvent: NotificationEvent) {
     const notificationEventJson = JSON.stringify(notificationEvent);
     this.client.write(notificationEventJson + "\n");
   }
 
-  onReceiveData() {
+  /**
+   * Método que representa um evento de recibo de dados do Servidor Java.
+   * @returns {Promise<string>} retorna uma Promise. Tenta capturar os dados e retorná-los, caso contrário, retornará um erro.
+   */
+  onReceiveData(): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       this.client.on("data", (data) => {
         try {
-          console.log("\nReceived from Java Server:", data.toString() + "\n");
           resolve(data.toString());
         } catch (error) {
-          console.log("Error parsing response:", error);
           reject(error);
         }
       });
@@ -63,19 +66,29 @@ export default class Client {
     });
   }
 
+  /**
+   * Método que representa um evento de erro na conexão Socket.
+   */
   onSocketError = () => {
     this.client.on("error", function (err) {
       console.log("Error:", err.message);
     });
   };
 
+  /**
+   * Método que representa um evento de fechamento da conexão Socket.
+   */
   onSocketClose = () => {
     this.client.on("close", function () {
       console.log("Connection closed");
     });
   };
 
-  onCloseConnection = () => {
+  /**
+   * Método que realiza o fechamento da conexão Socket com o Servidor Java.
+   */
+  closeConnection = () => {
+    console.log("Desconectando cliente");
     this.client.end();
   };
 }
