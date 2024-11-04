@@ -1,4 +1,4 @@
-package org.aethos;
+package org.aethos.config;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -18,8 +18,6 @@ public class FirebaseConfig {
                 .build();
 
         FirebaseApp defaultApp = FirebaseApp.initializeApp(options);
-
-        System.out.println(defaultApp.getName());
     }
 
 }

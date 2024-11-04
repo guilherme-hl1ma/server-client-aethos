@@ -1,9 +1,14 @@
 package org.aethos;
 
+import org.aethos.config.FirebaseConfig;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
+/**
+ * Classe que representa o servidor Java. Inicia o servidor, adicionalmente, instancia uma Thread que cobrirá todas
+ * as conexões, ou seja, validará todas os pedidos de conexões dos clientes ao servidor.
+ */
 public class Server {
     public static String DEFAULT_PORT = "3000";
 
@@ -11,6 +16,12 @@ public class Server {
         String port = Server.DEFAULT_PORT;
 
         ArrayList<Client> clients = new ArrayList<Client>();
+
+        try {
+            FirebaseConfig firebaseConfig = new FirebaseConfig();
+        } catch (IOException error) {
+            System.out.println("Error to instantiated firebase config");
+        }
 
         ConnectionValidator connectionValidator = null;
         try

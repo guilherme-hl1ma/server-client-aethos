@@ -5,29 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c106959-2ec2-4043-99ea-98ac76785584" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/ConnectionValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/ConnectionWatcher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/FirebaseConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/OperationValidation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/UserValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aethos/models/NotificationEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/serviceAccountKey.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-client/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-client/src/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/src/client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-client/src/models/UserForm.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-client/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/src/server.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +40,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$PROJECT_DIR$/../../../../../Development/Tools/Java/Java_17/lib/src.zip!/java.base/java/io/ObjectOutputStream.java" root0="SKIP_INSPECTION" />
@@ -78,11 +59,12 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/guihl/Downloads/2024-10-29.P3",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/guihl/PUC/4th_semestre/Projeto_Integrador_4/aethos-server-client/aethos-server",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
   <component name="RecentsManager">

@@ -1,9 +1,15 @@
 package org.aethos;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Classe que representa uma Thread responsável por validar as conexões. Verifica a porta de conexão, instancia os
+ * clientes conectados ao servidor. Além disso, lida com o fechamento e o reinício das Threads que serão usadas para
+ * observar as atividades do cliente.
+ */
 public class ConnectionValidator extends Thread
 {
     private ServerSocket serverSocket;
@@ -27,29 +33,53 @@ public class ConnectionValidator extends Thread
         this.clients = clients;
     }
 
-    public void run()
-    {
-        for (;;)
-        {
+    public void run() {
+        while (true) {
             Socket connection = null;
-            try
-            {
+            try {
                 connection = this.serverSocket.accept();
-            } catch (Exception error)
-            {
+            } catch (IOException error) {
+                System.out.println("Failed to accept connection. Restarting server...");
+                restartServerSocket();
                 continue;
             }
 
-            ConnectionWatcher connectionWatcher = null;
-            try
-            {
-                connectionWatcher = new ConnectionWatcher(connection, clients);
+            try {
+                ConnectionWatcher connectionWatcher = new ConnectionWatcher(connection, clients);
+                connectionWatcher.start();
+            } catch (Exception error) {
+                System.out.println("Error starting ConnectionWatcher: " + error.getMessage());
+                closeConnection(connection);
             }
-            catch (Exception error) {
-                continue;
-            }
+        }
+    }
 
-            connectionWatcher.start();
+    /**
+     * Método para reiniciar o ServerSocket.
+     */
+    private void restartServerSocket() {
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+            this.serverSocket = new ServerSocket(Integer.parseInt(Server.DEFAULT_PORT));
+            System.out.println("Server restarted on port: " + Server.DEFAULT_PORT);
+        } catch (IOException e) {
+            System.out.println("Failed to restart server socket: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para fechar uma conexão.
+     * @param connection Conexão Socket
+     */
+    private void closeConnection(Socket connection) {
+        if (connection != null && !connection.isClosed()) {
+            try {
+                connection.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

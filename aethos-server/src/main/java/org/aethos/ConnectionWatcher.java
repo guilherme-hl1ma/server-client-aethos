@@ -12,15 +12,18 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
+/**
+ * Classe que representa a Thread de operação dos clientes, a que vai lidar com o recebimento de dados do Cliente.
+ */
 public class ConnectionWatcher extends Thread
 {
     private Client client;
     private Socket connection;
     private ArrayList<Client> clients;
-    private FirebaseConfig firebaseConfig;
     private final Gson gson = new Gson();
-    private Firestore db;
+    private final Firestore db;
 
     public ConnectionWatcher(Socket connection, ArrayList<Client> clients) throws Exception
     {
@@ -30,7 +33,7 @@ public class ConnectionWatcher extends Thread
 
         this.connection = connection;
         this.clients = clients;
-        firebaseConfig = new FirebaseConfig();
+
         db = FirestoreClient.getFirestore();
     }
 
@@ -65,12 +68,16 @@ public class ConnectionWatcher extends Thread
         } catch (Exception error) {}
 
         try {
-            synchronized (this.client) {
+            synchronized (this.clients) {
                 this.clients.add(this.client);
             }
 
             for (;;) {
                 String postNotification = this.client.send();
+
+                if (postNotification == null) {
+                    return;
+                }
 
                 System.out.println(postNotification);
 
@@ -83,7 +90,16 @@ public class ConnectionWatcher extends Thread
                 docData.put("follow", notificationEvent.isFollow());
                 docData.put("comment", notificationEvent.isComment());
                 docData.put("read", notificationEvent.isRead());
+
                 ApiFuture<WriteResult> result = db.collection("notifications").document().set(docData);
+
+                try {
+                    WriteResult writeResult = result.get();  // Aguarda o resultado
+                    System.out.println("Data saved at: " + writeResult.getUpdateTime());
+                } catch (InterruptedException | ExecutionException e) {
+                    System.err.println("Error saving data to Firestore: " + e.getMessage());
+                    e.printStackTrace();
+                }
 
                 client.receive(gson.toJson(notificationEvent));
             }
@@ -91,17 +107,16 @@ public class ConnectionWatcher extends Thread
             try {
                 transmitter.close();
                 receiver.close();
-                this.connection.close();
-                this.clients.remove(this.client);
-            } catch (Exception failure) {}
-        } finally {
-            try {
-                this.client.disconnectAll();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            } catch (Exception failure) {
+                synchronized (this.clients) {
+                    this.clients.remove(this.client);
+                }
+                try {
+                    this.client.disconnectAll();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
-            this.clients.remove(this.client);
-            System.out.println("Desconectando o cliente...");
         }
     }
 }
