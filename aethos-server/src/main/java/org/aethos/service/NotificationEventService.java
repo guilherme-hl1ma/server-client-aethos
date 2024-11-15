@@ -22,8 +22,8 @@ public class NotificationEventService {
 
     public boolean postNotification(NotificationEvent notificationEvent) {
         Map<String, Object> docData = new HashMap<>();
-        docData.put("uuidFromUser", notificationEvent.getUuidUserFrom());
-        docData.put("uuidToUser", notificationEvent.getUuidUserTo());
+        docData.put("uidUserTo", notificationEvent.getUidUserTo());
+        docData.put("userFromDetails", notificationEvent.getUserFromDetails());
         docData.put("like", notificationEvent.isLike());
         docData.put("follow", notificationEvent.isFollow());
         docData.put("comment", notificationEvent.isComment());

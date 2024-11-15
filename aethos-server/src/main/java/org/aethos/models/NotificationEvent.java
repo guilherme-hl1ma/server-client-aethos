@@ -4,34 +4,35 @@ package org.aethos.models;
  * Classe que representa um Evento de Notificação.
  */
 public class NotificationEvent extends Message {
-    private String uuidUserFrom;
-    private String uuidUserTo;
+    private String uidUserTo;
+    private UserFromDetails userFromDetails;
     private boolean like;
     private boolean follow;
     private boolean comment;
     private boolean read;
 
-    public NotificationEvent(String uuidUserFrom,
-                             String uuidUserTo,
+    public NotificationEvent(String uuidUserTo,
+                             String user,
+                             String name,
                              boolean like,
                              boolean follow,
                              boolean comment,
                              boolean read)
     {
-        this.uuidUserFrom = uuidUserFrom;
-        this.uuidUserTo = uuidUserTo;
+        this.uidUserTo = uuidUserTo;
+        this.userFromDetails = new UserFromDetails(user, name);
         this.like = like;
         this.follow = follow;
         this.comment = comment;
         this.read = read;
     }
 
-    public String getUuidUserFrom() {
-        return uuidUserFrom;
+    public String getUidUserTo() {
+        return uidUserTo;
     }
 
-    public String getUuidUserTo() {
-        return uuidUserTo;
+    public UserFromDetails getUserFromDetails() {
+        return userFromDetails;
     }
 
     public boolean isLike() {
@@ -64,11 +65,10 @@ public class NotificationEvent extends Message {
         else    isRead = "Not Read";
 
         return String.format(
-                "Source User UUID: %s%n" +
-                "Destination User UUID: %s%n" +
+                "Source User Name: %s%n" +
                 "Operation Type: %s%n" +
                 "Notification was read: %s%n",
-                getUuidUserFrom(), getUuidUserTo(), operationType, isRead
+                userFromDetails.getName(), getUidUserTo(), operationType, isRead
         );
     }
 
@@ -77,8 +77,8 @@ public class NotificationEvent extends Message {
     {
         int aux = 11;
 
-        aux = aux * 11 + String.valueOf(uuidUserFrom).hashCode();
-        aux = aux * 11 + String.valueOf(uuidUserTo).hashCode();
+        aux = aux * 11 + String.valueOf(uidUserTo).hashCode();
+        aux = aux * 11 + userFromDetails.hashCode();
         aux = aux * 11 + Boolean.valueOf(like).hashCode();
         aux = aux * 11 + Boolean.valueOf(follow).hashCode();
         aux = aux * 11 + Boolean.valueOf(comment).hashCode();
@@ -97,8 +97,8 @@ public class NotificationEvent extends Message {
         if (this.getClass() != obj.getClass())  return false;
 
         NotificationEvent notificationEvent = (NotificationEvent) obj;
-        if (!notificationEvent.getUuidUserFrom().equals(this.getUuidUserFrom()))  return false;
-        if (!notificationEvent.getUuidUserTo().equals(this.getUuidUserTo()))  return false;
+        if (!notificationEvent.getUidUserTo().equals(this.getUidUserTo()))  return false;
+        if (!notificationEvent.getUserFromDetails().equals(this.getUserFromDetails()))   return false;
         if (notificationEvent.isLike() != this.isLike())   return false;
         if (notificationEvent.isFollow() != this.isFollow())    return false;
         if (notificationEvent.isComment() != this.isComment())  return false;

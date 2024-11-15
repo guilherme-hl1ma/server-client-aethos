@@ -5,6 +5,7 @@ import org.aethos.socket.Client;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -43,7 +44,7 @@ public class ConnectionWatcher extends Thread
         BufferedReader receiver;
         try
         {
-            receiver = new BufferedReader(new InputStreamReader(this.connection.getInputStream()));;
+            receiver = new BufferedReader(new InputStreamReader(this.connection.getInputStream(), StandardCharsets.UTF_8));
         }
         catch (Exception error)
         {
