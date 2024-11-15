@@ -42,8 +42,22 @@ export default class Client {
    * @param {NotificationEvent} notificationEvent um objeto que representa um evento de notificação.
    */
   notify(notificationEvent: NotificationEvent) {
-    const notificationEventJson = JSON.stringify(notificationEvent);
-    this.client.write(notificationEventJson + "\n");
+    if (
+      notificationEvent.userFromDetails.uid.length != 28 ||
+      notificationEvent.uidUserTo.length != 28
+    ) {
+      return false;
+    } else if (
+      !notificationEvent.comment &&
+      !notificationEvent.follow &&
+      !notificationEvent.like
+    ) {
+      return false;
+    } else {
+      const notificationEventJson = JSON.stringify(notificationEvent);
+      this.client.write(notificationEventJson + "\n");
+      return true;
+    }
   }
 
   /**

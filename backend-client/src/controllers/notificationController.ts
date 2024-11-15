@@ -9,7 +9,15 @@ export async function postNotification(
   try {
     var notificationEvent: NotificationEvent = req.body as NotificationEvent;
 
-    client.notify(notificationEvent);
+    const response = client.notify(notificationEvent);
+
+    if (!response) {
+      res.status(500).send({
+        status: "error",
+        message: "Erro ao enviar para o servidor",
+      });
+      client.onSocketError();
+    }
 
     const serverResponse: string = await client.onReceiveData();
 
@@ -20,6 +28,9 @@ export async function postNotification(
     }
 
     client.onSocketError();
-    res.status(500).send({ error: "Internal server error" });
+    res.status(500).send({
+      status: "error",
+      message: "Internal server error",
+    });
   }
 }
