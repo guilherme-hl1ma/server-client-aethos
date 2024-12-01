@@ -19,6 +19,11 @@ public class NotificationEventController {
         this.gson = new Gson();
     }
 
+    /**
+     * Função responsável por gravar a notificação no Firebase Firestore.
+     * @param postNotification Objeto que representa uma notificação enviado a partir do Cliente.
+     * @return Objeto de Resposta indicando o status da gravação e a respectiva mensagem
+     * */
     public String handleNotification(String postNotification) {
         NotificationEvent notificationEvent = gson.fromJson(postNotification, NotificationEvent.class);
         boolean result = notificationEventService.postNotification(notificationEvent);
@@ -32,4 +37,5 @@ public class NotificationEventController {
         }
         return gson.toJson(responseMap);
     }
+
 }

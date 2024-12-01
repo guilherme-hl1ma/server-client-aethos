@@ -20,6 +20,11 @@ public class NotificationEventService {
         db = FirestoreClient.getFirestore();
     }
 
+    /**
+     * Função responsável por postar a notificação no Firebase Firestore.
+     * @param notificationEvent Objeto do tipo NotificationEvent que representa uma notificação a ser gravada.
+     * @return true caso a gravação tenha sido bem-sucedida, false caso contrário.
+     * */
     public boolean postNotification(NotificationEvent notificationEvent) {
         Map<String, Object> docData = new HashMap<>();
         docData.put("uidUserTo", notificationEvent.getUidUserTo());

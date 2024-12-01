@@ -1,5 +1,8 @@
 package org.aethos.models;
 
+/**
+ * Classe que os detalhes do usuário que realizou a ação que gerou a notificação.
+ */
 public class UserFromDetails {
     private String uid;
     private String name;

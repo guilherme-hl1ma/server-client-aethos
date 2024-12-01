@@ -6,12 +6,13 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Classe que representa o Cliente Socket que se comunica com o Java.
+ * */
 public class Client {
-    private Socket connection;
-    private BufferedReader receiver;
-    private PrintWriter transmitter;
-
-    private String nextMessage = null;
+    private final Socket connection;
+    private final BufferedReader receiver;
+    private final PrintWriter transmitter;
 
     public Client(Socket connection, BufferedReader receiver, PrintWriter transmitter) throws Exception
     {
@@ -26,11 +27,18 @@ public class Client {
         this.transmitter = transmitter;
     }
 
+    /**
+     * Função responsável por enviar os dados para o Socket do Cliente.
+     * @param response Objeto de Resposta à requisição do Cliente.
+     * */
     public void receive(Object response) {
         Gson gson = new Gson();
         this.transmitter.println(gson.toJson(response));
     }
 
+    /**
+     * Função responsável por receber os dados do Cliente e repassá-los para o Servidor.
+     * */
     public String send() throws Exception {
         try {
             String line = this.receiver.readLine();
@@ -44,6 +52,9 @@ public class Client {
         }
     }
 
+    /**
+     * Função responsável por desconectar o Cliente do Servidor.
+     * */
     public void disconnectAll() throws Exception
     {
         try

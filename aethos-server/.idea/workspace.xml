@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c106959-2ec2-4043-99ea-98ac76785584" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../backend-client/src/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/src/client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend-client/src/controllers/notificationController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/src/controllers/notificationController.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend-client/src/models/NotificationEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend-client/src/models/NotificationEvent.ts" afterDir="false" />
-    </list>
+    <list default="true" id="9c106959-2ec2-4043-99ea-98ac76785584" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,7 +55,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/guihl/PUC/4th_semestre/Projeto_Integrador_4/aethos-server-client/aethos-server&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/guihl/Downloads&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,

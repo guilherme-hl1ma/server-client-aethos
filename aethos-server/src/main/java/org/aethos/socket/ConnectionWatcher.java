@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class ConnectionWatcher extends Thread
 {
     private Client client;
-    private Socket connection;
-    private ArrayList<Client> clients;
-    private NotificationEventController notificationEventController;
+    private final Socket connection;
+    private final ArrayList<Client> clients;
+    private final NotificationEventController notificationEventController;
 
     public ConnectionWatcher(Socket connection, ArrayList<Client> clients) throws Exception
     {
@@ -29,6 +29,7 @@ public class ConnectionWatcher extends Thread
         this.notificationEventController = new NotificationEventController();
     }
 
+    // Instruções da Thread
     public void run()
     {
         PrintWriter transmitter;
@@ -60,10 +61,12 @@ public class ConnectionWatcher extends Thread
         } catch (Exception error) {}
 
         try {
+            // evitar condições de corrida - apenas uma thread pode executar o bloco sincronizado por vez
             synchronized (this.clients) {
                 this.clients.add(this.client);
             }
 
+            // escutar indefinidamente o cliente
             for (;;) {
                 String clientMessage = this.client.send();
                 System.out.println(clientMessage);
