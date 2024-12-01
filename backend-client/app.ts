@@ -10,5 +10,3 @@ app.listen(8080, () => {
   console.log("Backend is running on port 8080");
 });
 
-client.onSocketClose();
-client.onSocketError();

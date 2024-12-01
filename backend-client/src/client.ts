@@ -8,33 +8,29 @@ export default class Client {
   static readonly DEFAULT_HOST: string = "localhost";
   static readonly DEFAULT_PORT: number = 3000;
   private client: net.Socket = new net.Socket();
+  private isConnected: boolean = false;
+  private reconnectInterval: NodeJS.Timeout | null = null;
 
   constructor(
     host: string = Client.DEFAULT_HOST,
     port: number = Client.DEFAULT_PORT
   ) {
-    this.client = new net.Socket();
-    try {
-      this.client.connect(port, host);
-    } catch (error) {
-      if (error instanceof Error)
-        console.error(
-          `Failed to connect to socket on port ${port}: ${error.message}`
-        );
-    }
+    this.connectSocket(port, host);
   }
 
-  private connectSocker(port: number, host: string) {
+  private connectSocket(port: number, host: string) {
+    this.client = new net.Socket();
     this.client.connect(port, host, () => {
-      try {
-        console.log(`Connected to the socket at the port: ${port}`);
-      } catch (error) {
-        if (error instanceof Error)
-          throw new Error(
-            `Failed to connect to socket on port ${port}: ${error.message}`
-          );
+      console.log(`Connected to the socket at port: ${port}\n`);
+      this.isConnected = true;
+      if (this.reconnectInterval) {
+        clearInterval(this.reconnectInterval); // Cancela tentativas de reconexão, se existirem
+        this.reconnectInterval = null;
       }
     });
+
+    this.onSocketError();
+    this.onSocketClose(port, host);
   }
 
   /**
@@ -46,17 +42,36 @@ export default class Client {
       notificationEvent.userFromDetails.uid.length != 28 ||
       notificationEvent.uidUserTo.length != 28
     ) {
-      return false;
+      return {
+        isValid: false,
+        message:
+          "O UID tanto do usuário da ação quanto do que recebe deve ter 28 caracteres.",
+      };
     } else if (
       !notificationEvent.comment &&
       !notificationEvent.follow &&
       !notificationEvent.like
     ) {
-      return false;
-    } else {
-      const notificationEventJson = JSON.stringify(notificationEvent);
-      this.client.write(notificationEventJson + "\n");
-      return true;
+      return {
+        isValid: false,
+        message: "A notificação deve ter pelos menos uma ação como true",
+      };
+    }
+
+    const notificationEventJson = JSON.stringify(notificationEvent);
+    this.client.write(notificationEventJson + "\n");
+    return {
+      isValid: true,
+      message: "",
+    };
+  }
+
+  private reconnect(port: number, host: string) {
+    if (!this.reconnectInterval) {
+      this.reconnectInterval = setInterval(() => {
+        console.warn("Attempting to reconnect to the server...\n");
+        this.connectSocket(port, host);
+      }, 5000);
     }
   }
 
@@ -84,17 +99,19 @@ export default class Client {
    * Método que representa um evento de erro na conexão Socket.
    */
   onSocketError = () => {
-    this.client.on("error", function (err) {
-      console.log("Error:", err.message);
+    this.client.on("error", (err) => {
+      this.isConnected = false;
     });
   };
 
   /**
    * Método que representa um evento de fechamento da conexão Socket.
    */
-  onSocketClose = () => {
-    this.client.on("close", function () {
-      console.log("Connection closed");
+  onSocketClose = (port: number, host: string) => {
+    this.client.on("close", () => {
+      console.warn("Connection closed. Reconnecting...\n");
+      this.isConnected = false;
+      this.reconnect(port, host);
     });
   };
 
@@ -105,4 +122,8 @@ export default class Client {
     console.log("Desconectando cliente");
     this.client.end();
   };
+
+  isServerConnected(): boolean {
+    return this.isConnected;
+  }
 }

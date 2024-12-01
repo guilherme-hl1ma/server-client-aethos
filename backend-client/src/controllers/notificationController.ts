@@ -7,16 +7,23 @@ export async function postNotification(
   res: Response
 ): Promise<void> {
   try {
+    if (!client.isServerConnected()) {
+      res.status(503).send(JSON.parse(JSON.stringify({
+        status: "error",
+        message: "Servidor está atualmente indisponível. Tente Novamente mais tarde."
+      })))
+      return;
+    }
     var notificationEvent: NotificationEvent = req.body as NotificationEvent;
 
     const response = client.notify(notificationEvent);
 
-    if (!response) {
+    if (!response.isValid) {
       res.status(500).send({
         status: "error",
-        message: "Erro ao enviar para o servidor",
+        message: response.message,
       });
-      client.onSocketError();
+      return;
     }
 
     const serverResponse: string = await client.onReceiveData();
